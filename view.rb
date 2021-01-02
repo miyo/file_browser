@@ -31,14 +31,14 @@ def get_description(f)
 end
 
 dir = cgi_value(cgi, 'dir', '/')
-puts("#{dir}<br>")
 dirs = dir.split("/").filter{|x| x != ""}
 puts("<a href=\"view.rb?dir=/\">/</a>")
 dirs.each_with_index{|d,i|
     path = dirs[0,i+1].join('/')
     puts("&nbsp<a href=\"view.rb?dir=/#{path}\">#{d}</a>/")
 }
-puts("#{get_readme(dir)}<br>")
+desc = get_readme(dir)
+puts("&nbsp;-&nbsp;#{get_readme(dir)}<br>") unless desc == ""
 
 puts("<hr>")
 Dir.glob("#{dir}/*").sort.each{|d|
