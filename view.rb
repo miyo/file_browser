@@ -1,12 +1,18 @@
 #!/usr/bin/ruby
 
+require "uri"
 require "cgi"
+require "cgi/escape"
 
 puts("Content-Type: text/html; charset=UTF-8\n\n")
 puts("<html>")
 puts("<body>")
 
 cgi = CGI.new
+
+def escape(str)
+  return CGI.escapeHTML(str)
+end
 
 def cgi_value(cgi, key, def_value)
     return def_value if cgi.params[key] == nil
@@ -48,15 +54,15 @@ Dir.glob("#{dir}/*").sort.each{|d|
     str = ""
     if File.directory?(d) then
         desc = get_readme(d)
-        str = "<a href=\"view.rb?dir=#{d}\"</a>#{basename}/</a> - #{desc}"
-        desc1 = get_readme(d)
-        desc2 = get_description(d)
+        str = "<a href=\"view.rb?dir=#{d}\"</a>#{escape(basename)}/</a> - #{desc}"
+        desc1 = escape(get_readme(d))
+        desc2 = escape(get_description(d))
         str += "&nbsp;-&nbsp;" + desc1 if desc1 != ""
         str += "&nbsp;-&nbsp;" + desc2 if desc2 != ""
     else
         # TODO: I don't want to embed IP-address directly
-        str = "<a href=\"http://127.0.0.1:20080/#{d}\" target=\"_new\">#{basename}</a>"
-        desc2 = get_description(d)
+        str = "<a href=\"http://127.0.0.1:20080/#{URI.encode(d)}\" target=\"_new\">#{escape(basename)}</a>"
+        desc2 = escape(get_description(d))
         str += "&nbsp;-&nbsp;" + desc2 if desc2 != ""
     end
     puts("#{str}<br>")
