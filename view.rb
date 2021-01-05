@@ -37,7 +37,7 @@ def get_description(f)
 end
 
 dir = cgi_value(cgi, 'dir', '/')
-dirs = dir.split("/").filter{|x| x != ""}
+dirs = dir.split("/").select{|x| x != ""}
 puts("<a href=\"view.rb?dir=/\">/</a>")
 dirs.each_with_index{|d,i|
     path = dirs[0,i+1].join('/')
