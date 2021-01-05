@@ -25,7 +25,7 @@ def get_readme(d)
     if File.directory?(d) and File.exists?("#{d}/README.md")
         open("#{d}/README.md"){|f| str = f.read}
     end
-    return str
+    return str[0,80]
 end
 
 def get_description(f)
@@ -33,7 +33,7 @@ def get_description(f)
     if File.exists?("#{f}.desc")
         open("#{f}.desc"){|f| str = f.read}
     end
-    return str
+    return str[0,80]
 end
 
 dir = cgi_value(cgi, 'dir', '/')
@@ -54,7 +54,7 @@ Dir.glob("#{dir}/*").sort.each{|d|
     str = ""
     if File.directory?(d) then
         desc = get_readme(d)
-        str = "<a href=\"view.rb?dir=#{d}\"</a>#{escape(basename)}/</a> - #{desc}"
+        str = "<a href=\"view.rb?dir=#{d}\"</a>#{escape(basename)}/</a>"
         desc1 = escape(get_readme(d))
         desc2 = escape(get_description(d))
         str += "&nbsp;-&nbsp;" + desc1 if desc1 != ""
