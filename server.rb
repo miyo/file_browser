@@ -11,7 +11,7 @@ opt = OptionParser.new
 realm = 'realm'
 user = 'user'
 password = 'password'
-port = 20080
+port = 20081
 opt.on('--realm VAL'){|v| realm = v}
 opt.on('--user VAL'){|v| user = v}
 opt.on('--password VAL'){|v| password = v}
@@ -43,6 +43,8 @@ server.mount_proc('/view.rb'){|req, res|
 }
 
 server.mount_proc('/'){|req, res|
+    peer_hostname = req.peeraddr[2]
+    peer_addr = req.peeraddr[3]
     unless allowed_addr?(peer_addr)
         puts("access denied from #{peer_addr}")
         raise WEBrick::HTTPStatus::Forbidden
