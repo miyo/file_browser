@@ -11,14 +11,16 @@ opt = OptionParser.new
 realm = 'realm'
 user = 'user'
 password = 'password'
+port = 20080
 opt.on('--realm VAL'){|v| realm = v}
 opt.on('--user VAL'){|v| user = v}
 opt.on('--password VAL'){|v| password = v}
+opt.on('--port VAL'){|v| port = v}
 opt.parse!(ARGV)
 
 server = WEBrick::HTTPServer.new({ :DocumentRoot => './',
                                    :BindAddress => '0.0.0.0',
-                                   :Port => 20080})
+                                   :Port => port})
 
 passwd = WEBrick::HTTPAuth::Htdigest.new("dot.digest")
 if passwd.get_passwd(realm, user, false) == nil
