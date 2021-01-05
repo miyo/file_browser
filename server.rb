@@ -42,6 +42,9 @@ server.mount_proc('/view.rb'){|req, res|
         .service(req,res)
 }
 
+server.mount('/import/bootstrap.min.css', WEBrick::HTTPServlet::FileHandler, './import/bootstrap.min.css')
+server.mount('/import/jquery-3.5.1.min.js', WEBrick::HTTPServlet::FileHandler, './import/jquery-3.5.1.min.js')
+
 server.mount_proc('/'){|req, res|
     peer_hostname = req.peeraddr[2]
     peer_addr = req.peeraddr[3]

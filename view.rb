@@ -6,6 +6,11 @@ require "cgi/escape"
 
 puts("Content-Type: text/html; charset=UTF-8\n\n")
 puts("<html>")
+puts("<head>")
+puts('<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">')
+puts('<script src="./import/jquery-3.5.1.min.js"></script>')
+puts('<link rel="stylesheet" href="./import/bootstrap.min.css">')
+puts("</head>")
 puts("<body>")
 
 cgi = CGI.new
@@ -38,6 +43,12 @@ end
 
 dir = cgi_value(cgi, 'dir', '/')
 dirs = dir.split("/").select{|x| x != ""}
+
+puts('<header class="header-section">')
+puts('<div class="container">')
+
+puts('<hr>')
+
 puts("<a href=\"view.rb?dir=/\">/</a>")
 dirs.each_with_index{|d,i|
     path = dirs[0,i+1].join('/')
@@ -46,7 +57,14 @@ dirs.each_with_index{|d,i|
 desc = get_readme(dir)
 puts("&nbsp;-&nbsp;#{get_readme(dir)}<br>") unless desc == ""
 
-puts("<hr>")
+puts('</div>')
+puts('</header>')
+
+puts('<section>')
+puts('<div class="container">')
+
+puts('<hr>')
+
 Dir.glob("#{dir}/*").sort.each{|d|
     next if /~$/ =~ d
     next if File.directory?(d) == false and File.extname(d) == ".desc" # .desc are special files
@@ -67,6 +85,9 @@ Dir.glob("#{dir}/*").sort.each{|d|
     end
     puts("#{str}<br>")
 }
+
+puts('</div>')
+puts('</section>')
 
 puts("</body>")
 puts("</html>")
