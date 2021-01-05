@@ -61,7 +61,7 @@ Dir.glob("#{dir}/*").sort.each{|d|
         str += "&nbsp;-&nbsp;" + desc2 if desc2 != ""
     else
         # TODO: I don't want to embed IP-address directly
-        str = "<a href=\"http://127.0.0.1:20080/#{URI.encode(d)}\" target=\"_new\">#{escape(basename)}</a>"
+      str = "<a href=\"http://127.0.0.1:20080#{URI.encode(d).gsub(/^\/+/,'/')}\" target=\"_new\">#{escape(basename)}</a>"
         desc2 = escape(get_description(d))
         str += "&nbsp;-&nbsp;" + desc2 if desc2 != ""
     end
